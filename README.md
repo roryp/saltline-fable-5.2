@@ -207,6 +207,8 @@ Original demo, with the built-in AI: https://realcodebear.github.io/saltline-fab
   - the Hound's firing-spot picker asks `brain.firePos` first, so the model's tactic picks the spot;
   - Hounds have a `_replan()` method, so a new tactic takes effect at once;
   - `burstsWanted` sets how many bursts a Hound fires before it moves.
+- `css/harbormaster.css` lets clicks and taps pass through the title screen's hidden location caption. On phones and
+  small windows it covered the Deploy button.
 - Everything else is new: the server (`server.js`, `lib/`), the brain (`js/`), its styles (`css/`), the tests
   (`test/`) and the Azure deployment (`azure.yaml`, `infra/`).
 

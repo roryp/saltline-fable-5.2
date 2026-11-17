@@ -42,6 +42,8 @@
 .hm-sp.dim { color: var(--bone-faint); }
 
 .hm-note { color: var(--signal); }
+/* The title's hidden location caption sits over the menu buttons on short screens; let clicks and taps through. */
+.loc-card { pointer-events: none; }
 .hm-stat dd small { font-size: .55em; color: var(--bone-dim); }
 
 .hm-tags[hidden], .hm-panel[hidden], .hm-tag[hidden] { display: none !important; }
