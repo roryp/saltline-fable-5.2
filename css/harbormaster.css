@@ -1,0 +1,49 @@
+/* Harbormaster: the model's decisions over the Gulls and Hounds (js/harbormaster.js), on the game's tokens. */
+
+.hm-tags { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.hm-tag { position: absolute; left: 0; top: 0; display: flex; align-items: baseline; gap: 5px; padding: 3px 7px 3px 6px; white-space: nowrap;
+  font: 600 12px/1 var(--f-label); letter-spacing: .16em; text-transform: uppercase; color: var(--bone);
+  background: rgba(11, 13, 15, .5); border-left: 2px solid currentColor; text-shadow: var(--shadow); will-change: transform; }
+.hm-tag small { font: 500 10px/1 var(--f-mono); letter-spacing: .04em; color: var(--bone-dim); }
+.hm-tag i { font-style: normal; }
+.hm-tag em { font: 400 9px/1 var(--f-mono); font-style: normal; letter-spacing: .06em; color: var(--bone-dim); }
+.hm-tag.holdfire { opacity: .7; }
+.hm-tag.tone-alarm { animation: hm-pulse .6s steps(2, jump-none) infinite; }
+@keyframes hm-pulse { 50% { opacity: .45; } }
+
+.tone-calm { color: var(--bone); }
+.tone-tactic { color: var(--signal); }
+.tone-hot { color: var(--rust); }
+.tone-cool { color: var(--steel); }
+.tone-alarm { color: var(--alarm); }
+
+/* top right: the objective sits top left, the compass top centre and the kill feed at 31% on the right */
+.hm-panel { position: absolute; top: calc(16px + var(--sat)); right: var(--gr); width: 340px; max-height: 26vh; overflow: hidden;
+  padding: 7px 10px 7px 12px; background: var(--plate); border-right: 2px solid var(--signal); text-shadow: var(--shadow); }
+.hm-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+  font: 600 11px/1.2 var(--f-label); letter-spacing: .24em; text-transform: uppercase; color: var(--signal); }
+.hm-head span { font: 500 10px/1.2 var(--f-mono); letter-spacing: .02em; text-transform: none; color: var(--bone-dim); }
+.hm-status { margin: 2px 0 5px; font: 400 10px/1.4 var(--f-mono); color: var(--bone-dim); }
+.hm-off { color: var(--rust); }
+.hm-empty { font: 500 11px/1.6 var(--f-label); letter-spacing: .14em; text-transform: uppercase; color: var(--bone-faint); }
+.hm-row { display: grid; grid-template-columns: 34px 84px 1fr 68px 58px; align-items: center; gap: 7px; height: 21px;
+  font: 600 11px/1 var(--f-label); letter-spacing: .1em; text-transform: uppercase; }
+.hm-row b { font: 500 10px/1 var(--f-mono); letter-spacing: .02em; color: var(--bone); }
+.hm-order { white-space: nowrap; overflow: hidden; }
+.hm-dist { display: flex; height: 6px; background: rgba(232, 228, 218, .08); overflow: hidden; }
+.hm-dist i { display: block; height: 100%; background: currentColor; opacity: .4; }
+.hm-dist i.on { opacity: 1; }
+.hm-aggr, .hm-sp { position: relative; padding-top: 5px; white-space: nowrap;
+  font: 400 9px/12px var(--f-mono); letter-spacing: .02em; text-transform: none; color: var(--bone-dim); }
+.hm-aggr u, .hm-sp u { position: absolute; left: 0; top: 0; height: 2px; background: var(--signal); text-decoration: none; }
+.hm-sp s { position: absolute; top: -1px; width: 1px; height: 4px; background: var(--bone); text-decoration: none; }
+.hm-sp.hot { color: var(--alarm); }
+.hm-sp.hot u { background: var(--alarm); }
+.hm-sp.dim { color: var(--bone-faint); }
+
+.hm-note { color: var(--signal); }
+.hm-stat dd small { font-size: .55em; color: var(--bone-dim); }
+
+.hm-tags[hidden], .hm-panel[hidden], .hm-tag[hidden] { display: none !important; }
+.is-touch .hm-panel { display: none !important; }
+@media (max-width: 760px) { .hm-panel { display: none !important; } }
