@@ -1,4 +1,4 @@
-// Harbormaster: hands every engaged Gull (drone) and Hound (robot dog) to Microsoft-Decision-1.
+// Harbormaster: hands every engaged Gull (drone) and Hound (robot dog) to Microsoft-Decision-1.1.
 //
 // Every 1.3-2.1 s an engaged machine sends its situation to the game server (/api/gull, /api/hound),
 // which asks the model three typed questions: a `choice` (Gull maneuver / Hound tactic), a `score`
@@ -84,7 +84,7 @@ class Harbormaster {
     this.ctx = G.enemies.debug.ctx;
     this.tune = G.enemies.TUNE;
     this.online = status.configured === true;
-    this.model = status.model ?? "Microsoft-Decision-1";
+    this.model = status.model ?? "Microsoft-Decision-1.1";
     this.minds = new Map(); // machine -> mind; machines are pooled, so this stays small
     this.tags = new Map();
     this.pending = 0;

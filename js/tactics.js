@@ -7,10 +7,11 @@
 export const GULL_ORDERS = ["circle", "crossfire", "dive", "climb"];
 export const HOUND_ORDERS = ["cover", "flank", "crossfire", "hold", "fall_back"];
 
-// The `noul` thresholds for the two drastic moves. Microsoft-Decision-1 is cautious about
-// self-destructing or charging into gunfire, so these sit below an even 0.5.
-export const RAM_THRESHOLD = 0.25;
-export const CHARGE_THRESHOLD = 0.4;
+// The `noul` thresholds for the two drastic moves. Microsoft-Decision-1.1 is cautious about
+// self-destructing or charging into gunfire, so these sit below an even 0.5. They are tuned so it rams
+// and charges about as often as Microsoft-Decision-1 did at 0.25 and 0.4.
+export const RAM_THRESHOLD = 0.35;
+export const CHARGE_THRESHOLD = 0.45;
 
 const TAU = Math.PI * 2;
 

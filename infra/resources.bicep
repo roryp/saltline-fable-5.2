@@ -40,7 +40,7 @@ resource foundry 'Microsoft.CognitiveServices/accounts@2026-09-01' = {
 
 resource decision 'Microsoft.CognitiveServices/accounts/deployments@2026-09-01' = {
   parent: foundry
-  name: 'decision-1'
+  name: 'decision-1.1'
   sku: {
     name: decisionSku
     capacity: decisionCapacity
@@ -48,7 +48,7 @@ resource decision 'Microsoft.CognitiveServices/accounts/deployments@2026-09-01' 
   properties: {
     model: {
       format: 'Microsoft'
-      name: 'Microsoft-Decision-1'
+      name: 'Microsoft-Decision-1.1'
       version: '1'
     }
     versionUpgradeOption: 'OnceNewDefaultVersionAvailable'

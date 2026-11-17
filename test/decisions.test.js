@@ -16,17 +16,17 @@ const auth = async () => ({ Authorization: "Bearer tok" });
 describe("createDecisionClient", () => {
   it("posts the state and typed questions to the Foundry systemone endpoint", async () => {
     const { impl, calls } = fakeFetch(200, {
-      model: "microsoft-decision-1",
+      model: "microsoft-decision-1.1",
       answers: { ram: { type: "noul", noul: 0.3 } },
       usage: { input_tokens: 404, output_tokens: 3 },
     });
-    const client = createDecisionClient({ endpoint: "https://res.cognitiveservices.azure.com/", deployment: "decision-1", getHeaders: auth, fetchImpl: impl });
+    const client = createDecisionClient({ endpoint: "https://res.cognitiveservices.azure.com/", deployment: "decision-1.1", getHeaders: auth, fetchImpl: impl });
     const questions = { ram: { type: "noul", instructions: "Ram?" } };
     const result = await client.ask({ state: "G-12 is hit", questions });
 
     assert.equal(calls[0].url, "https://res.cognitiveservices.azure.com/providers/microsoft/v1/systemone");
     assert.equal(calls[0].init.headers.Authorization, "Bearer tok");
-    assert.deepEqual(JSON.parse(calls[0].init.body), { model: "decision-1", state: "G-12 is hit", questions });
+    assert.deepEqual(JSON.parse(calls[0].init.body), { model: "decision-1.1", state: "G-12 is hit", questions });
     assert.deepEqual(result.answers, { ram: { type: "noul", noul: 0.3 } });
     assert.equal(result.usage.input_tokens, 404);
   });

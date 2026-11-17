@@ -1,4 +1,4 @@
-// Saltline server: serves the game and asks Microsoft-Decision-1 on Microsoft Foundry what each
+// Saltline server: serves the game and asks Microsoft-Decision-1.1 on Microsoft Foundry what each
 // Gull (drone) and Hound (robot dog) should do next. Credentials never reach the browser.
 
 import http from "node:http";

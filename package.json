@@ -2,7 +2,7 @@
   "name": "saltline-decisions",
   "version": "1.0.0",
   "private": true,
-  "description": "Saltline FPS whose Gulls (drones) and Hounds (robot dogs) make their tactical decisions with Microsoft-Decision-1 on Microsoft Foundry.",
+  "description": "Saltline FPS whose Gulls (drones) and Hounds (robot dogs) make their tactical decisions with Microsoft-Decision-1.1 on Microsoft Foundry.",
   "type": "module",
   "main": "server.js",
   "scripts": {

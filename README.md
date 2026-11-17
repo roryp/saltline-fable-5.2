@@ -1,16 +1,16 @@
-# Saltline — Fable 5.2 FPS, Microsoft-Decision-1 edition
+# Saltline — Fable 5.2 FPS, Microsoft-Decision-1.1 edition
 
 A small browser first-person shooter: one level in a rainy container port. Cut three uplink relays while drones
 ("Gulls") and robot dogs ("Hounds") hunt you. In this fork, every Gull and Hound that is hunting you decides its next
-move with [Microsoft-Decision-1](https://ai.azure.com/catalog/models/Microsoft-Decision-1) on Microsoft Foundry, the
-model behind the rivals in [LUNA GP](https://github.com/roryp/racing). The model answers typed questions (`choice`,
-`score`, `noul`) with probabilities instead of text.
+move with [Microsoft-Decision-1.1](https://ai.azure.com/catalog/models/Microsoft-Decision-1.1) on Microsoft Foundry, a
+newer version of the model behind the rivals in [LUNA GP](https://github.com/roryp/racing). The model answers typed
+questions (`choice`, `score`, `noul`) with probabilities instead of text.
 
 ![Gull G-14 rams the player while the Harbormaster panel shows each machine's latest decision](docs/harbormaster.jpg)
 
 ## Deploy to Azure
 
-One command creates the game's own Microsoft-Decision-1 deployment, hosts the game on App Service and connects the two
+One command creates the game's own Microsoft-Decision-1.1 deployment, hosts the game on App Service and connects the two
 with a managed identity. You need the [Azure Developer CLI](https://aka.ms/azd-install) (azd) 1.18+ and an Azure
 subscription where you can create resources and assign roles, for example as Owner.
 
@@ -20,11 +20,11 @@ azd up
 ```
 
 `azd up` asks for an environment name, a subscription and a region. It only offers regions with enough
-Microsoft-Decision-1 quota, and prints the game's URL when it finishes. Everything goes in one resource group:
+Microsoft-Decision-1.1 quota, and prints the game's URL when it finishes. Everything goes in one resource group:
 
 | Resource | Purpose |
 | --- | --- |
-| Microsoft Foundry resource with a `decision-1` deployment | Microsoft-Decision-1, GlobalStandard, 1,000 requests a minute. API keys are turned off. |
+| Microsoft Foundry resource with a `decision-1.1` deployment | Microsoft-Decision-1.1, GlobalStandard, 1,000 requests a minute. API keys are turned off. |
 | User-assigned managed identity | The server's identity. It has the Cognitive Services User role on the Foundry resource, and so do you. |
 | App Service plan (Linux, P0v3) and web app | Runs `server.js` on Node 24 LTS with a dedicated vCPU and 4 GB. |
 
@@ -43,12 +43,12 @@ To change a default, run `azd env set <variable> <value>` and then `azd up` agai
 | `DECISION_SKU` | `GlobalStandard` | `DataZoneStandard` keeps processing inside the US or EU data zone |
 | `DECISION_CAPACITY` | `1000` | Model requests a minute (and thousands of tokens a minute); a fight uses about 110 |
 
-DataZoneStandard quota is shared by all the regions in a data zone, so another Microsoft-Decision-1 deployment in the
+DataZoneStandard quota is shared by all the regions in a data zone, so another Microsoft-Decision-1.1 deployment in the
 same subscription may already be using it up.
 
 ## Run it locally
 
-Requires Node.js 20.12+ and the Azure CLI signed in (`az login`) with access to a Microsoft-Decision-1 deployment.
+Requires Node.js 20.12+ and the Azure CLI signed in (`az login`) with access to a Microsoft-Decision-1.1 deployment.
 There are no npm dependencies.
 
 ```sh
@@ -75,9 +75,9 @@ panel. Touch screens and gamepads work too: see **Controls** on the title screen
 
 ## Read the live overlay
 
-![A fight after the first relay: tags over H-03, H-04 and G-14, and the Harbormaster panel top right](docs/overlay.jpg)
+![A fight after the first relay: G-11, G-12 and G-13 dive while H-04 holds, and the Harbormaster panel top right](docs/overlay.jpg)
 
-The overlay shows what Microsoft-Decision-1 last told each machine, and every machine that is hunting you asks again
+The overlay shows what Microsoft-Decision-1.1 last told each machine, and every machine that is hunting you asks again
 every 1.3–2.1 s. **T** cycles it: tags and panel, tags only, off.
 
 **Tags** float over each machine that is hunting you and that you can see, so they never give away a machine behind a
@@ -96,13 +96,13 @@ latest answer:
 4. **Aggression**: the `score` answer, from Hold fire through Cautious, Steady and Aggressive to Relentless. The line
    above it shows the score out of 4.
 5. **Ram or charge**: the `noul` answer, the probability that this Gull should ram you or this Hound should charge. The
-   tick marks the threshold (0.25 to ram, 0.4 to charge), and red means the answer is over it. A dash means the
+   tick marks the threshold (0.35 to ram, 0.45 to charge), and red means the answer is over it. A dash means the
    question wasn't asked: a Gull is only asked at half hull or less with you in sight within 30 m, a Hound only with
    you in sight within 16 m.
 6. **Status**: the model's average response time and the decisions so far, or "built-in AI" when the model can't be
    reached.
 
-Here H-05's last answer put a charge at 0.65, over the threshold.
+Here H-03's last answer put a charge at 0.49, over the 0.45 threshold.
 
 ## How to fight the machines
 
@@ -121,11 +121,11 @@ Read a machine's tag and answer its order:
 | ✖︎ Ram | Gull | Flies into you and explodes for up to 30 damage | Shoot it: one hit brings it down |
 | » Charge | Hound | Sprints in to bite for 15 damage, three times a gun round | Back off and aim for the head |
 
-| ![G-13 dives in close under a gantry](docs/fight-dive.jpg) | ![G-15 rams with the RAMMING warning on screen](docs/fight-ram.jpg) |
+| ![G-13 dives in close under a gantry](docs/fight-dive.jpg) | ![G-13 rams with the RAMMING warning on screen](docs/fight-ram.jpg) |
 | --- | --- |
-| **Dive**: G-13 drops in close under a gantry. It is easy to hit there, and two hits bring it down. | **Ram**: G-15 is at 42% hull when the model says ram (0.27 against 0.25). One hit stops it. |
-| ![H-04 flanks round a barrier while G-13 circles overhead](docs/fight-flank.jpg) | ![H-03 charges while H-04 holds behind a barrier](docs/fight-charge.jpg) |
-| **Flank**: H-04 works round a barrier while G-13 circles overhead. | **Charge**: H-03 sprints in (0.50 against 0.4) while H-04 holds behind a barrier. |
+| **Dive**: G-13 drops in close under a gantry. It is easy to hit there, and two hits bring it down. | **Ram**: G-13 is at 42% hull when the model says ram (0.36 against 0.35). One hit stops it. |
+| ![H-04 flanks round a barrier while G-13 circles overhead](docs/fight-flank.jpg) | ![H-04 charges while H-03 holds by a barrier](docs/fight-charge.jpg) |
+| **Flank**: H-04 works round a barrier while G-13 circles overhead. | **Charge**: H-04 sprints in (0.46 against 0.45) while H-03 holds by a barrier. |
 
 - **Gulls die in two hits, Hounds in six, or three to the head.** Your rifle does 26 a hit at any range. A Gull has 45
   hull and a Hound 140 armor, and head hits on a Hound do 2.2 times the damage.
@@ -138,7 +138,7 @@ Read a machine's tag and answer its order:
   or aiming, and where you are looking. Reload behind cover.
 - **A charge is one bite.** After it, the Hound can't charge again for 6 s.
 
-## How the machines use Microsoft-Decision-1
+## How the machines use Microsoft-Decision-1.1
 
 | Who | When | Questions |
 | --- | --- | --- |
@@ -155,12 +155,13 @@ it:
 | Gull maneuver: `circle`, `crossfire`, `dive`, `climb` | Orbit radius, altitude and direction round you |
 | Hound tactic: `cover`, `flank`, `crossfire`, `hold`, `fall_back` | Where the Hound picks its next firing spot |
 | Aggression: 0 Hold fire … 4 Relentless | Fire rate; below 0.5 the machine holds fire |
-| Ram, asked when a Gull is at half hull or less | p ≥ 0.25: the Gull dives into you and self-destructs |
-| Charge, asked when a Hound sees you within 16 m | p ≥ 0.4: the Hound sprints in to bite, at most every 6 s |
+| Ram, asked when a Gull is at half hull or less | p ≥ 0.35: the Gull dives into you and self-destructs |
+| Charge, asked when a Hound sees you within 16 m | p ≥ 0.45: the Hound sprints in to bite, at most every 6 s |
 
-The ram and charge thresholds sit below 0.5 because the model is cautious about drastic moves. A decision is about 500
-input tokens, and a fight with five machines makes about 110 calls a minute. If a call fails, that machine falls back to
-the built-in AI until the next answer.
+The ram and charge thresholds sit below 0.5 because the model is cautious about drastic moves. They are set so
+Microsoft-Decision-1.1 rams and charges about as often as Microsoft-Decision-1 did at 0.25 and 0.4. A decision is about
+500 input tokens, and a fight with five machines makes about 110 calls a minute. If a call fails, that machine falls
+back to the built-in AI until the next answer.
 
 The [live overlay](#read-the-live-overlay) shows every answer as it arrives.
 
@@ -169,7 +170,7 @@ The [live overlay](#read-the-live-overlay) shows every answer as it arrives.
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `FOUNDRY_ENDPOINT` | – | Foundry resource endpoint (required for model decisions) |
-| `FOUNDRY_DEPLOYMENT` | `decision-1` | Model deployment name |
+| `FOUNDRY_DEPLOYMENT` | `decision-1.1` | Model deployment name |
 | `FOUNDRY_API_KEY` | unset | Optional key auth; otherwise Entra ID: the App Service managed identity, else the Azure CLI login |
 | `AZURE_CLIENT_ID` | unset | Client ID of the user-assigned managed identity to use on App Service |
 | `PORT` / `HOST` | `8731` / `127.0.0.1` | Listen address |
@@ -192,7 +193,7 @@ your local `.env` out of the deployment.
 - Per his post: one prompt, no human feedback, about 8 hours, about 2.7M output and 445M input tokens (heavily cached), about $550 at API pricing. Models, sounds and textures are all made in code. These numbers are his own and not checked here.
 
 All credit for the game goes to its original author. The upstream repo mirrors the artifact so people can run it
-locally; this fork adds the Microsoft-Decision-1 brain for the Gulls and Hounds. If you are the author and want it taken
+locally; this fork adds the Microsoft-Decision-1.1 brain for the Gulls and Hounds. If you are the author and want it taken
 down, open an issue.
 
 Original demo, with the built-in AI: https://realcodebear.github.io/saltline-fable-5.2/
