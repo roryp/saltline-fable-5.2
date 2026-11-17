@@ -64,6 +64,80 @@ Press **T** to cycle the AI tags and the Harbormaster panel.
 Without `FOUNDRY_ENDPOINT`, or from a plain static server (`python3 -m http.server 8731`), the Gulls and Hounds use the
 game's built-in AI.
 
+## Play
+
+Cut the three uplink relays (A, B and C on the compass), then get to the extraction boat. Each relay you cut sends in a
+bigger wave, up to nine machines at once.
+
+**WASD** move, **mouse** look, **left button** fire, **right button** aim, **R** reload, **hold E** cut a relay,
+**Shift** sprint, **C** or **Ctrl** crouch, **Space** jump, **F** melee, **Esc** or **P** pause, **T** AI tags and
+panel. Touch screens and gamepads work too: see **Controls** on the title screen.
+
+## Read the live overlay
+
+![A fight after the first relay: tags over H-03, H-04 and G-14, and the Harbormaster panel top right](docs/overlay.jpg)
+
+The overlay shows what Microsoft-Decision-1 last told each machine, and every machine that is hunting you asks again
+every 1.3–2.1 s. **T** cycles it: tags and panel, tags only, off.
+
+**Tags** float over each machine that is hunting you and that you can see, so they never give away a machine behind a
+wall. A tag shows the machine's ID and its order. It fades and says "hold fire" when the model has told the machine not
+to shoot, and it pulses red for the two drastic moves, ✖︎ Ram and » Charge.
+
+**The Harbormaster panel** lists every machine that is hunting you, including the ones you can't see, with the model's
+latest answer:
+
+![The Harbormaster panel with numbered callouts](docs/overlay-panel.jpg)
+
+1. **Machine**: the ID painted on it. Gulls are G-11 and up, Hounds H-03 and up.
+2. **Order**: the `choice` answer, the machine's job for the next few seconds.
+3. **Odds**: one segment per possible order, as wide as its probability. The solid one won; an even split means the
+   model was torn.
+4. **Aggression**: the `score` answer, from Hold fire through Cautious, Steady and Aggressive to Relentless. The line
+   above it shows the score out of 4.
+5. **Ram or charge**: the `noul` answer, the probability that this Gull should ram you or this Hound should charge. The
+   tick marks the threshold (0.25 to ram, 0.4 to charge), and red means the answer is over it. A dash means the
+   question wasn't asked: a Gull is only asked at half hull or less with you in sight within 30 m, a Hound only with
+   you in sight within 16 m.
+6. **Status**: the model's average response time and the decisions so far, or "built-in AI" when the model can't be
+   reached.
+
+Here H-05's last answer put a charge at 0.65, over the threshold.
+
+## How to fight the machines
+
+Read a machine's tag and answer its order:
+
+| Tag | Who | What it does | What to do |
+| --- | --- | --- | --- |
+| ▼ Dive | Gull | Drops to about 9 m out and 2.5 m up for accurate fire | Shoot it now: it is close, low and exposed |
+| ▲ Climb | Gull | Climbs to about 10 m up and 24 m out, where its fire is less accurate | Deal with closer threats first |
+| ↻ Circle | Gull | Orbits about 18 m out, swinging round towards your back | Keep turning with it |
+| ✕&nbsp;Crossfire | Both | Moves to your side opposite the rest of the squad | Back off until every machine is in front of you |
+| ■ Cover | Hound | Fires from a spot behind cover 8–18 m away | Aim for the head, which shows over low cover |
+| ● Hold | Hound | Stands still and fires three bursts before it moves | Line up head shots, or break line of sight |
+| ↪︎ Flank | Hound | Works round to your side or back, out of your sight | Check the panel: a Flank you can't see is coming round behind you |
+| ▽&nbsp;Fall&nbsp;back | Hound | Backs off to 15–26 m, behind cover if it can | It is less accurate out there: deal with the others first |
+| ✖︎ Ram | Gull | Flies into you and explodes for up to 30 damage | Shoot it: one hit brings it down |
+| » Charge | Hound | Sprints in to bite for 15 damage, three times a gun round | Back off and aim for the head |
+
+| ![G-13 dives in close under a gantry](docs/fight-dive.jpg) | ![G-15 rams with the RAMMING warning on screen](docs/fight-ram.jpg) |
+| --- | --- |
+| **Dive**: G-13 drops in close under a gantry. It is easy to hit there, and two hits bring it down. | **Ram**: G-15 is at 42% hull when the model says ram (0.27 against 0.25). One hit stops it. |
+| ![H-04 flanks round a barrier while G-13 circles overhead](docs/fight-flank.jpg) | ![H-03 charges while H-04 holds behind a barrier](docs/fight-charge.jpg) |
+| **Flank**: H-04 works round a barrier while G-13 circles overhead. | **Charge**: H-03 sprints in (0.50 against 0.4) while H-04 holds behind a barrier. |
+
+- **Gulls die in two hits, Hounds in six, or three to the head.** Your rifle does 26 a hit at any range. A Gull has 45
+  hull and a Hound 140 armor, and head hits on a Hound do 2.2 times the damage.
+- **Finish damaged Gulls first.** Only a Gull at half hull or less can ram, and one hit downs it.
+- **Shot-down Gulls explode where they crash**, for up to 15 damage to you within 3 m and up to 30 to any machine
+  there.
+- **Watch the aggression.** A Relentless machine fires about twice as fast as a Steady one, and a "hold fire" machine
+  doesn't fire at all.
+- **They know what you are doing.** Every decision is told your health, whether you are reloading, sprinting, crouched
+  or aiming, and where you are looking. Reload behind cover.
+- **A charge is one bite.** After it, the Hound can't charge again for 6 s.
+
 ## How the machines use Microsoft-Decision-1
 
 | Who | When | Questions |
@@ -88,8 +162,7 @@ The ram and charge thresholds sit below 0.5 because the model is cautious about 
 input tokens, and a fight with five machines makes about 110 calls a minute. If a call fails, that machine falls back to
 the built-in AI until the next answer.
 
-Tags over the machines you can see show their current order. The Harbormaster panel shows each answer: the `choice`
-probabilities, the aggression `score`, and the `noul` probability against its threshold.
+The [live overlay](#read-the-live-overlay) shows every answer as it arrives.
 
 ## Configuration
 
