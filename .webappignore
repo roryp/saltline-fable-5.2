@@ -1,0 +1,17 @@
+# What `azd deploy` leaves out of the App Service package (gitignore syntax). App Service only needs
+# index.html, server.js, package.json, lib/, js/ and css/. Above all, never ship a local .env:
+# server.js loads it, and it would point the hosted game at whatever your local copy uses.
+.env
+.env.*
+.azure/
+.git/
+.github/
+.vscode/
+docs/
+infra/
+node_modules/
+test/
+.gitignore
+.webappignore
+azure.yaml
+README.md

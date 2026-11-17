@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: saltline
+requiredVersions:
+  # 1.18.0 is the first azd that honours .webappignore, which keeps .env out of the deployment.
+  azd: ">= 1.18.0"
+services:
+  web:
+    project: .
+    language: js
+    host: appservice
+    # Look the app up by name: right after provisioning, ARM's tag index can lag and miss the azd-service-name tag.
+    resourceName: ${SERVICE_WEB_NAME}

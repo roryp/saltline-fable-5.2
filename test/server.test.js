@@ -39,7 +39,7 @@ describe("server", () => {
     assert.equal((await post({ Origin: base })).status, 503);
     assert.deepEqual(await (await fetch(`${base}/api/status`)).json(), {
       configured: false,
-      model: "Microsoft-Decision-1 (decision-1-dz)",
+      model: "Microsoft-Decision-1 (decision-1)",
       keySource: "Entra ID (Azure CLI login)",
     });
   });
