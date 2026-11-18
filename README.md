@@ -73,6 +73,11 @@ bigger wave, up to nine machines at once.
 **Shift** sprint, **C** or **Ctrl** crouch, **Space** jump, **F** melee, **Esc** or **P** pause, **T** AI tags and
 panel. Touch screens and gamepads work too: see **Controls** on the title screen.
 
+On a touch screen, auto aim does the hard part. When the crosshair is near a machine you can see, the view slows down,
+follows it and fires by itself, so you only have to steer. It aims for the body, so line up Hound head shots yourself.
+FIRE and AIM still work, a firm drag away lets go, and it never locks on through walls. Mouse, keyboard and gamepad
+play get no help.
+
 ## Read the live overlay
 
 ![A fight after the first relay: G-11, G-12 and G-13 dive while H-04 holds, and the Harbormaster panel top right](docs/overlay.jpg)
@@ -209,8 +214,8 @@ Original demo, with the built-in AI: https://realcodebear.github.io/saltline-fab
   - `burstsWanted` sets how many bursts a Hound fires before it moves.
 - `css/harbormaster.css` lets clicks and taps pass through the title screen's hidden location caption. On phones and
   small windows it covered the Deploy button.
-- Everything else is new: the server (`server.js`, `lib/`), the brain (`js/`), its styles (`css/`), the tests
-  (`test/`) and the Azure deployment (`azure.yaml`, `infra/`).
+- Everything else is new: the server (`server.js`, `lib/`), the brain and touch auto aim (`js/`), its styles (`css/`),
+  the tests (`test/`) and the Azure deployment (`azure.yaml`, `infra/`).
 
 The game itself is still one file, `index.html` (~1.4 MB). It bundles three.js and loads fonts from Google Fonts. There
 are no other outside assets.

@@ -81,3 +81,6 @@
 .hm-ai[data-view="all"] { color: var(--signal); border-color: var(--signal); }
 .hm-ai[data-view="tags"] { color: var(--signal); }
 @media (max-width: 760px) { .hm-ai { right: auto; left: calc(12px + var(--sal)); } }
+
+/* Touch: FIRE lights up while auto aim fires (js/touch-aim.js). */
+.t-fire.hm-auto { background: rgba(255, 179, 71, .2); border-color: var(--signal); color: var(--signal); }

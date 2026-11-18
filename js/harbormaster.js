@@ -21,6 +21,7 @@ import {
   viewOf,
   wrapAngle,
 } from "./tactics.js";
+import { installTouchAim } from "./touch-aim.js";
 
 const DECISION_MS = [1300, 2100]; // per machine, while it is engaging
 const ORDER_TTL_MS = 5000; // without a fresh answer, the built-in AI takes over again
@@ -719,6 +720,7 @@ class Harbormaster {
 
 const G = await waitForGame();
 if (G) {
+  installTouchAim(G);
   const brain = new Harbormaster(G, await fetchStatus());
   brain.install();
   window.__harbormaster = brain;
