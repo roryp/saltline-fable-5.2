@@ -47,5 +47,37 @@
 .hm-stat dd small { font-size: .55em; color: var(--bone-dim); }
 
 .hm-tags[hidden], .hm-panel[hidden], .hm-tag[hidden] { display: none !important; }
-.is-touch .hm-panel { display: none !important; }
-@media (max-width: 760px) { .hm-panel { display: none !important; } }
+
+/* Touch screens: pause, ammo and the kill feed fill the top right, so the panel sits on the left, under the objective
+   and the health bar. Touches pass through it to the move stick. */
+.is-touch .hm-panel { top: calc(182px + var(--sat)); right: auto; left: var(--gl); width: min(340px, 42vw);
+  max-height: calc(100% - 190px - var(--sat) - var(--sab)); border-right: 0; border-left: 2px solid var(--signal);
+  container-type: inline-size; }
+/* Narrow screens move the objective and health down. */
+@media (max-width: 760px) {
+  .hm-panel, .is-touch .hm-panel { top: calc(204px + var(--sat)); right: auto; left: var(--gl); width: min(340px, 42vw);
+    max-height: calc(100% - 212px - var(--sat) - var(--sab)); border-right: 0; border-left: 2px solid var(--signal);
+    container-type: inline-size; }
+}
+/* Portrait: above the touch buttons and below the crosshair, four machines at most (two on short screens). */
+@media (orientation: portrait) {
+  .is-touch .hm-panel { top: auto; bottom: calc(232px + var(--sab)); width: min(340px, calc(100% - var(--gl) - var(--gr)));
+    max-height: none; }
+  .is-touch .hm-rows > :nth-child(n+5) { display: none; }
+}
+@media (orientation: portrait) and (max-width: 760px) {
+  .hm-panel { top: auto; bottom: calc(232px + var(--sab)); width: min(340px, calc(100% - var(--gl) - var(--gr))); max-height: none; }
+  .hm-rows > :nth-child(n+5) { display: none; }
+}
+@media (orientation: portrait) and (max-height: 760px) { .hm-rows > :nth-child(n+3) { display: none; } }
+/* Small panels drop the probability bar. */
+@container (max-width: 300px) {
+  .hm-row { grid-template-columns: 34px 84px 1fr 58px; }
+  .hm-dist { display: none; }
+}
+
+/* Touch: the AI button cycles the tags and panel, like T. It sits left of pause, or top left on narrow screens. */
+.hm-ai { width: 42px; height: 42px; border-radius: 0; right: calc(62px + var(--sar)); top: calc(12px + var(--sat)); color: var(--bone-dim); }
+.hm-ai[data-view="all"] { color: var(--signal); border-color: var(--signal); }
+.hm-ai[data-view="tags"] { color: var(--signal); }
+@media (max-width: 760px) { .hm-ai { right: auto; left: calc(12px + var(--sal)); } }

@@ -59,7 +59,7 @@ npm start
 In Windows PowerShell 5.1, `>` writes UTF-16, which Node can't read: use `azd env get-values | Set-Content .env` there.
 
 Open <http://127.0.0.1:8731>, or the URL `azd up` printed, and click the page to capture the mouse and start the sound.
-Press **T** to cycle the AI tags and the Harbormaster panel.
+Press **T**, or tap **AI** on a touch screen, to cycle the AI tags and the Harbormaster panel.
 
 Without `FOUNDRY_ENDPOINT`, or from a plain static server (`python3 -m http.server 8731`), the Gulls and Hounds use the
 game's built-in AI.
@@ -78,14 +78,14 @@ panel. Touch screens and gamepads work too: see **Controls** on the title screen
 ![A fight after the first relay: G-11, G-12 and G-13 dive while H-04 holds, and the Harbormaster panel top right](docs/overlay.jpg)
 
 The overlay shows what Microsoft-Decision-1.1 last told each machine, and every machine that is hunting you asks again
-every 1.3–2.1 s. **T** cycles it: tags and panel, tags only, off.
+every 1.3–2.1 s. **T**, or the **AI** button at the top of a touch screen, cycles it: tags and panel, tags only, off.
 
 **Tags** float over each machine that is hunting you and that you can see, so they never give away a machine behind a
 wall. A tag shows the machine's ID and its order. It fades and says "hold fire" when the model has told the machine not
 to shoot, and it pulses red for the two drastic moves, ✖︎ Ram and » Charge.
 
 **The Harbormaster panel** lists every machine that is hunting you, including the ones you can't see, with the model's
-latest answer:
+latest answer. It sits top right; on phones and tablets it moves to the left, or above the buttons in portrait:
 
 ![The Harbormaster panel with numbered callouts](docs/overlay-panel.jpg)
 

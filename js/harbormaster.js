@@ -544,16 +544,44 @@ class Harbormaster {
         : "Model server offline: the Gulls and Hounds use the built-in AI.";
       note.after(line);
     }
-    // List the T key with the game's own controls.
-    const keys = document.querySelector('[data-pane="controls"] dl.keys');
-    if (keys) keys.insertAdjacentHTML("beforeend", "<div><dt>AI tags and panel</dt><dd><kbd>T</kbd></dd></div>");
+    // List the T key with the game's own controls, and the AI button with the touch controls.
+    const [keys, touchKeys] = document.querySelectorAll('[data-pane="controls"] dl.keys');
+    keys?.insertAdjacentHTML("beforeend", "<div><dt>AI tags and panel</dt><dd><kbd>T</kbd></dd></div>");
+    touchKeys?.insertAdjacentHTML("beforeend", "<div><dt>AI tags and panel</dt><dd>AI, at the top</dd></div>");
     const legend = document.querySelector(".m-legend > div");
     if (legend) legend.insertAdjacentHTML("beforeend", "<span><kbd>T</kbd> AI tags</span>");
+  }
+
+  // The game builds its touch controls on the first touch; the AI button joins them, so it shows and hides with them.
+  addTouchButton() {
+    const controls = document.querySelector("#ui > .touch");
+    if (!controls) return;
+    const button = document.createElement("button");
+    button.className = "t-btn hm-ai";
+    button.setAttribute("aria-label", "AI tags and panel");
+    button.dataset.view = this.view;
+    button.innerHTML = "<span>AI</span>";
+    button.addEventListener(
+      "touchstart",
+      (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.cycleView();
+      },
+      { passive: false },
+    );
+    button.addEventListener("click", () => this.cycleView());
+    controls.append(button);
+    this.ui.aiButton = button;
   }
 
   onKey(e) {
     if (e.code !== "KeyT" || e.repeat || e.ctrlKey || e.metaKey || e.altKey) return;
     if (["INPUT", "TEXTAREA", "SELECT"].includes(e.target?.tagName)) return;
+    this.cycleView();
+  }
+
+  cycleView() {
     this.view = VIEWS[(VIEWS.indexOf(this.view) + 1) % VIEWS.length];
     try {
       localStorage.setItem("saltline.aiView", this.view);
@@ -562,6 +590,7 @@ class Harbormaster {
     }
     this.G.hud.message?.(VIEW_MESSAGES[this.view], 1.6);
     this.panelAt = 0;
+    if (this.ui.aiButton) this.ui.aiButton.dataset.view = this.view;
   }
 
   onState(state, prev) {
@@ -586,6 +615,7 @@ class Harbormaster {
 
   draw() {
     if (!this.ui) return;
+    if (!this.ui.aiButton && this.G.input?.touch) this.addTouchButton();
     const playing = this.G.game.state === "playing";
     this.ui.tags.hidden = !playing || this.view === "off";
     if (!this.ui.tags.hidden) this.drawTags();
@@ -683,7 +713,7 @@ class Harbormaster {
     });
     const empty = this.online ? '<div class="hm-empty">No machine is engaging you</div>' : "";
     this.ui.panel.innerHTML = `<div class="hm-head"><b>Harbormaster</b><span>${escapeHtml(this.model.replace(/ \(.*\)$/, ""))}</span></div>
-      <div class="hm-status">${status}</div>${body.join("") || empty}`;
+      <div class="hm-status">${status}</div><div class="hm-rows">${body.join("") || empty}</div>`;
   }
 }
 
